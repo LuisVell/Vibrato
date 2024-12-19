@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <style>
+            @font-face {
+                font-family: Architect;
+                src: url(Fontes/Architect.ttf);
+            }
+            @font-face{
+                font-family: Bagel;
+                src: url(Fontes/Bagel.ttf);
+            }
+            @font-face{
+                font-family: Sour;
+                src: url(Fontes/Sour.ttf);
+            }
+            @font-face{
+                font-family: Syne;
+                src: url(Fontes/Syne.ttf);
+            }
+            @font-face {
+                font-family: DynaPuff;
+                src: url(Fontes/DynaPuff.ttf);
+            }
+
+            #v{
+                font-family: Syne;
+                color: #000000;
+            }
+            #b{
+                font-family: Syne;
+                color: #000000;
+            }
+            #t{
+                font-family: Syne;
+                color: #000000;
+            }
+            #i{
+                font-family: Architect;
+                color: #000000;
+            }
+            #r{
+                font-family: Syne;
+                color: #000000;
+            }
+            #a{
+                font-family: Syne;
+                color: #000000;
+            }
+            #o{
+                font-family: Syne;
+                color: #000000;
+            }
+        </style>
+
+        <!--Carrega coisas de fora-->
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js">
+        </script>
+
+        <script>
+            let fonts = ['Bagel','Sour','Architect','DynaPuff']
+            let colors = ['rgb(39, 45, 130)','rgb(169, 173, 33)']
+            let elementsToRandom = ['i','r','a','o']
+
+            const RandomFontValue = 4;
+            const RandomColorValue = 2;
+
+            function GenerateIMG(){
+                html2canvas(document.querySelector("#Save")).then(canvas => {
+                    document.getElementById('Versions').insertBefore(canvas, document.getElementById('Versions').firstChild);
+                });
+            }
+
+            function Change(i,plus){
+                ChangeFont(i,plus)
+                ChangeColor(i,plus)
+            }
+            function ChangeFont(i, plus){
+                let Div = document.getElementById(i)
+                let NowFont = getComputedStyle(Div).getPropertyValue("font-family")
+                let SetFont = fonts.indexOf(NowFont) + plus
+                if(SetFont<0 || SetFont>fonts.length-1){
+                    SetFont = 0
+                }
+                console.log(String(fonts[SetFont]))
+                Div.style.fontFamily = fonts[SetFont];
+            }
+            function ChangeColor(i,plus){
+                let Div = document.getElementById(i)
+                let NowColor = getComputedStyle(Div).getPropertyValue("color")
+                let SetColor = colors.indexOf(NowColor)+plus
+                if(SetColor<0 || SetColor>colors.length-1){
+                    SetColor = 0
+                }
+                console.log(String(colors[SetColor]))
+                Div.style.color = colors[SetColor];
+            }
+            function Random(){ 
+                for (const element of elementsToRandom) {
+                    ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+                    ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+                }
+                for(const element of ['v','b','t']){
+                    ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+                }
+            }
+            function RandomColor(){
+                for (const element of elementsToRandom.concat(['v','b','t'])) {
+                    ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+                }
+            }
+            function RandomFont(){
+                for (const element of elementsToRandom) {
+                    ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+                }
+            }
+        </script>
+        <script>
+
+        </script>
+
+    </head>
+    <body>
+        <div style="display: flex; justify-content: center;">
+            <div>
+                <div id="Save" style="display: flex; align-items: flex-end; font-size: 300px; width: min-content;">
+                    <div id="v">V</div>
+                    <div id="i" onclick="ChangeFont('i',1)">i</div>
+                    <div id="b">b</div>
+                    <div id="r" onclick="ChangeFont('r',1)">r</div>
+                    <div id="a" onclick="ChangeFont('a',1)">a</div>
+                    <div id="t">t</div>
+                    <div id="o" onclick="ChangeFont('o',1)">o</div>
+                </div>
+                <div>
+                    <button onclick="ChangeColor('v',1)">V Cor</button>
+                    <button onclick="ChangeColor('i',1)">i Cor</button>
+                    <button onclick="ChangeColor('b',1)">b Cor</button>
+                    <button onclick="ChangeColor('r',1)">r Cor</button>
+                    <button onclick="ChangeColor('a',1)">a Cor</button>
+                    <button onclick="ChangeColor('t',1)">t Cor</button>
+                    <button onclick="ChangeColor('o',1)">o Cor</button>
+                    <br>
+                    <button onclick="Random()">Aleatorizar TD</button>
+                    <button onclick="RandomColor()">Al Cor</button>
+                    <button onclick="RandomFont()">Al Font</button>
+                    <button onclick="GenerateIMG()">Salvar img</button>
+                </div>
+            </div>
+        </div>
+        <div id="Versions" style="display: flex; flex-wrap: wrap;"></div>
+    </body>
+</html>

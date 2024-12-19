@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <style>
+            @font-face {
+                font-family: Architect;
+                src: url(Fontes/Architect.ttf);
+            }
+            @font-face{
+                font-family: Bagel;
+                src: url(Fontes/Bagel.ttf);
+            }
+            @font-face{
+                font-family: Sour;
+                src: url(Fontes/Sour.ttf);
+            }
+            @font-face{
+                font-family: Syne;
+                src: url(Fontes/Syne.ttf);
+            }
+
+            #V{
+                font-family: Syne;
+                color: #000000;
+            }
+            #b{
+                font-family: Syne;
+                color: #000000;
+            }
+            #t{
+                font-family: Syne;
+                color: #000000;
+            }
+            #i,#r,#a,#o{
+                font-family: Bagel;
+                color: #000000;
+            }
+        </style>
+
+        <script>
+            let fonts = ['Sour','Architect','Bagel', 'Syne']
+            let elementsToRandom = ['i','r','a','o']
+
+            function ChangeFont(i, plus){
+                let Div = document.getElementById(i)
+                let NowFont = getComputedStyle(Div).getPropertyValue("font-family")
+                Div.style.fontFamily = fonts[fonts.indexOf(NowFont) + plus];
+            }
+            function ChangeColor(i,plus){
+                let Div = document.getElementById(i)
+                let NowColor = getComputedStyle(Div).getPropertyValue("color")
+                Div.style.color = colors[colors.indexOf(NowColor) + plus];
+            }
+            function Random(){
+                for (const element of elementsToRandom) {
+                    ChangeFont(element, (Math.floor(Math.random() * 2)))
+                }
+            }
+        </script>
+        <script>
+
+        </script>
+
+    </head>
+    <body>
+        <div id="Save" style="display: flex; align-items: flex-end; font-size: 100px; width: min-content;">
+            <div id="v">V</div>
+            <div id="i" onclick="ChangeFont('i',1)">i</div>
+            <div id="b">b</div>
+            <div id="r" onclick="ChangeFont('r',1)">r</div>
+            <div id="a" onclick="ChangeFont('a',1)">a</div>
+            <div id="t">t</div>
+            <div id="o" onclick="ChangeFont('o',1)">o</div>
+        </div>
+        <button onclick="Random()">Aleatorizar</button>
+    </body>
+</html>
