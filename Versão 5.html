@@ -1,0 +1,599 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Vibrato Generator</title>
+        <style>
+            /*Carregamento de Fontes*/
+            @font-face {
+                font-family: Architect;
+                src: url(Fontes/Architect.ttf);
+            }
+            @font-face{
+                font-family: Bagel;
+                src: url('Fontes/BagelFatOne-Regular alterada.ttf');
+            }
+            @font-face{
+                font-family: Sour;
+                src: url(Fontes/Sour.ttf);
+            }
+            @font-face{
+                font-family: Syne;
+                src: url(Fontes/SyneMono-Regular\ alterada.ttf);
+            }
+            @font-face {
+                font-family: DynaPuff;
+                src: url(Fontes/DynaPuff.ttf);
+            }
+            
+            /*Estilo inicial*/
+            #v{
+                font-family: Syne;
+                color: rgb(200, 48, 02);
+            }
+            #b{
+                font-family: Syne;
+                color: rgb(200, 48, 02);
+            }
+            #t{
+                font-family: Syne;
+                color: rgb(200, 48, 02);
+            }
+            #i{
+                font-family: Architect;
+                color: rgb(200, 48, 02);
+            }
+            #r{
+                font-family: Sour;
+                color: rgb(200, 48, 02);
+            }
+            #a{
+                font-family: DynaPuff;
+                color: rgb(200, 48, 02);
+            }
+            #o{
+                font-family: Bagel;
+                color: rgb(200, 48, 02);
+            }
+
+            /*Vibrato*/
+            .text{
+                display: flex; 
+                justify-content: center;
+                flex-wrap: nowrap;
+                font-size: 8vw;
+                user-select: none;
+            }
+            .textLow{
+                height: 30vh;
+                font-size: 8vw;
+            }
+            .textHigh{
+                height: 60vh;
+                font-size: 20vw;
+            }
+
+            #Save{
+                display: flex; 
+                align-items: flex-end;
+                flex-wrap: nowrap; 
+                width: min-content;
+            }
+
+            body{
+                padding: 0;
+                margin: 0;
+                font-family: 'Architect';
+                font-size: 1.5vw;
+            }
+            #box-Superior{
+                margin: 0;
+                height: fit-content;
+                display: flex;
+                justify-content: flex-start;
+                border-bottom: 1px solid black;
+            }
+            
+            #box-Letters{
+                width: 55%;
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: start;
+                align-items: flex-start;
+                align-content: space-around;
+                padding: 1%;
+                border-right: 1px solid black;
+                /*border-radius: 10px;*/
+            }
+            .box-Letter{
+                font-size: 1vw;
+                padding: .4vw;
+                margin: 5px;
+                border: 1px black solid;
+                border-radius: 1vw;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                align-content: space-between;
+            }
+            .box-Letter button{
+                font-size: 1vw;
+            }
+            .box-Letter>div>div{
+                margin: auto;
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+            .box-Letter b{
+                padding: 0px;
+                margin: auto .5vw auto .5vw;
+                font-size: 2vw;
+            }
+
+            button{
+                font-family: Architect;
+                font-size: 1vw;
+                height: min-content;
+                color: rgb(57, 102, 102);
+                border: 1px solid rgb(131, 122, 122);
+                border-radius: 2px;
+                color: rgb(56, 55, 55);
+                background-color: rgb(226, 226, 226);
+                padding: auto;
+            }
+
+            #box-Controls{
+                font-size: 1.5vw;
+                padding: 0.5%;
+                display: flex;
+                flex-flow: column;
+                justify-content: space-between;
+            }
+
+            #Versions{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            #Versions>*{
+                margin: 5px;
+            }
+
+            .box-Sets{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: baseline;
+            }
+
+            .box-Selectors{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+            }
+
+            #box-ColorsContainer{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+                border-bottom: 1px solid black;
+                padding: 5px;
+                border-radius: 10px;
+            }
+            #box-ColorsContainer>div{
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                margin: 1px 0px 1px 10px;
+            }
+            #box-ColorsContainer:last-child{
+                flex-basis: 100%;
+            }
+
+            @media only screen and (max-width: 800px) {
+                
+            }
+        </style>
+
+        <!--Carrega coisas de fora-->
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+        <script>
+            //document.addEventListener('contextmenu', event => event.preventDefault());
+            
+            let fonts = ['Bagel','Sour','Architect','DynaPuff']
+
+            let baseColors = ['rgb(200, 48, 2)','rgb(35, 61, 76)','rgb(219, 120, 158)','rgb(255, 175, 137)','rgb(171, 26, 19)'] 
+            let colors = baseColors.slice()
+            let cOpen = false;
+            let tempColors = []
+            let tempBGColor
+            let elementsToRandom = ['i','r','a','o']
+
+            const RandomFontValue = 4;
+            const RandomColorValue = 5;
+
+            let nColor = 0;
+            let nFont = 0;
+
+            function Monocolor(){
+                let colorsdiv = document.getElementById('box-ColorsContainer')
+                let bgInput = document.getElementById('input-bgColor')
+                if(colorsdiv.style.visibility == 'hidden'){
+                    colorsdiv.style.visibility = 'visible'
+                    colors = tempColors.slice()
+                    bgSetColor(false)
+                    SetColor(-1)
+                }else{
+                    colorsdiv.style.visibility = 'hidden'
+                    tempColors = colors.slice()
+                    colors = ['rgb(0, 0, 0)']
+                    bgSetColor(false)
+                    SetColor(-1)
+                }
+            }
+
+            function FillColors(){
+                let div = document.getElementById('box-ColorsContainer')
+                div.innerHTML=''
+                if(cOpen){
+                    for(let i = 0;i<colors.length;i++){
+                        div.innerHTML+='<div>'+String(i+1)+'- <input id="customColor-'+String(i)+'" onChange="ColorArrayEdit('+String(i)+')" type="color" value="'+rgbtoHex(colors[i])+'">'+(colors.length>1?'<button onClick="DeleteColor('+String(i)+')">X</button>':'')+'</div>'
+                    };
+                    div.innerHTML+='<button onClick="AddColor()">+</button><button onClick="ResetColors()">Reset</button>'
+                }  
+                div.innerHTML+='<button onClick="OpenCloseColors()" style="flex-basis:100%;">'+(cOpen?'Fechar':'Cores')+'</button>'
+            }
+
+            function OpenCloseColors(){
+                cOpen = !cOpen
+                console.log(cOpen)
+                FillColors()
+            }
+
+            //Obrigado Internet
+            var rgbtoHex = x => '#' + x.match(/\d+/g).map(y = z => ((+z < 16)?'0':'') + (+z).toString(16)).join('');
+            function hexToRGB(hex) {  
+                let r = parseInt(hex.substring(1,3), 16);
+                let g = parseInt(hex.substring(3,5), 16);
+                let b = parseInt(hex.substring(5), 16);  
+                return 'rgb('+String(r)+', '+String(g)+', '+String(b)+')';
+            }
+
+            function ColorArrayEdit(i){
+                let input = document.getElementById('customColor-'+String(i))
+                colors[i] = hexToRGB(input.value)
+            }
+
+            function DeleteColor(i){
+                colors.splice(i, 1)
+                FillColors()
+            }
+
+            function AddColor(){
+                colors.push('rgb('+String(Math.floor(Math.random() * 254))+', '+String(Math.floor(Math.random() * 254))+', '+String(Math.floor(Math.random() * 254))+')')
+                FillColors()
+            }
+
+            function ResetColors(){
+                colors = baseColors.slice()
+                FillColors()
+            }
+
+            function bgSetColor(b){
+                b==null?b=true:'';
+                let input = document.getElementById('input-bgColor')
+                let canva = document.getElementById('Save')
+                if(b){
+                    canva.style.backgroundColor = hexToRGB(input.value)
+                }else{
+                    input.value = '#ffffff'
+                    canva.style.backgroundColor = "transparent"
+                }
+            }
+
+            window.onload = ()=>{
+                FillColors()
+            }
+
+            function GenerateIMG(){
+                html2canvas(document.querySelector("#Save"),{scale: 4,backgroundColor:null}).then(canvas => {
+                    canvas.id = Date.now()
+                    canvas.style = "width: 20%;"
+                    canvas.onclick = function(){SaveCanva(canvas.id)}
+                    document.getElementById('Versions').insertBefore(canvas, document.getElementById('Versions').firstChild);
+                });
+            }
+
+            function ClearVersions(){
+                document.getElementById('Versions').innerHTML = ''
+            }
+
+            function SaveCanva(id){
+                var link = document.createElement('a');
+                link.download = 'Vibrato_'+id+'.png';
+                link.href = document.getElementById(id).toDataURL()
+                link.click();
+            }
+
+            function ChangeFont(i, plus,fix=false){
+                let Div = document.getElementById(i)
+                let NowFont = getComputedStyle(Div).getPropertyValue("font-family")
+                let SetFont = (!fix)?fonts.indexOf(NowFont)+plus:nFont
+                console.log(SetFont)
+                if(SetFont<0 || SetFont>fonts.length-1){
+                    SetFont = 0
+                    if(plus == -1){
+                        SetFont = fonts.length-1
+                    }
+                }
+                console.log(String(fonts[SetFont]))
+                Div.style.fontFamily = fonts[SetFont];
+            }
+
+            function SetColor(plus){
+                if(plus == null){
+                    plus = Math.floor(Math.random() * RandomColorValue)
+                }
+                nColor += plus
+                if(nColor<0||nColor>colors.length-1){
+                    nColor = 0
+                    if(plus == -1){
+                        nColor = colors.length-1
+                    }
+                }
+                for (const element of elementsToRandom.concat(['v','b','t'])) {
+                    ChangeColor(element, nColor,true)
+                }
+            }
+
+            function SetFont(plus){
+                if(plus == null){
+                    plus = Math.floor(Math.random() * RandomFontValue)
+                }
+                nFont += plus
+                if(nFont<0||nFont>fonts.length-1){
+                    nFont = 0
+                    if(plus == -1){
+                        nFont = fonts.length-1
+                    }
+                }
+                for (const element of elementsToRandom){
+                    ChangeFont(element, nFont,true)
+                }
+            }
+
+            function ChangeColor(i,plus, fix=false){
+                let Div = document.getElementById(i)
+                let NowColor = getComputedStyle(Div).getPropertyValue("color")
+                let SetColor = (!fix)?colors.indexOf(NowColor)+plus:nColor
+                console.log(colors.indexOf(NowColor))
+                if(SetColor<0 || SetColor>colors.length-1){
+                    SetColor = 0
+                    if(plus == -1){
+                        SetColor = colors.length-1
+                    }
+                }
+                console.log(String(colors[SetColor]))
+                Div.style.color = colors[SetColor];
+            }
+            function Random(){ 
+                for (const element of elementsToRandom) {
+                    ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+                    ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+                }
+                for(const element of ['v','b','t']){
+                    ChangeColor(element, (Math.floor(Math.random( ) * RandomColorValue)))
+                }
+            }
+            function RandomColor(){
+                for (const element of elementsToRandom.concat(['v','b','t'])) {
+                    ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+                }
+            }
+            function RandomFont(){
+                for (const element of elementsToRandom) {
+                    ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+                }
+            }
+
+            function SetMode(b){
+                let div = document.getElementsByClassName('text')
+                for(i = 0;i<div.length;i++){
+                    if(b){
+                        if(div[i].classList.contains('textLow')){
+                            div[i].classList.replace('textLow','textHigh')
+                        }
+                    }else{
+                        if(div[i].classList.contains('textHigh')){
+                            div[i].classList.replace('textHigh','textLow')
+                        }
+                    }
+                }
+            }
+
+            function Generate(b){
+                let ctdun = document.querySelector('input[name="input-ColorsAllUn"]:checked').value;
+                let cty = document.querySelector('input[name="input-TypoAllsUn"]:checked').value;
+
+                if(ctdun==1){
+                    SetColor()
+                }else{
+                    RandomColor()
+                }
+                if(cty==1){
+                    SetFont()
+                }else{
+                    RandomFont()
+                }
+                if(b){
+                    GenerateIMG()
+                }
+            }
+            
+        </script>
+    </head>
+    <body>
+        <div id="box-Superior">
+            <div id="box-Letters">
+                <div class="box-Letter">
+                    <b>V</b>
+                    <div>
+                        <button onclick="ChangeColor('v',-1)">&lt=</button>
+                        Cor
+                        <button onclick="ChangeColor('v',1)">=></button>
+                    </div>
+                </div>
+                <div class="box-Letter">
+                    <b>b</b>
+                    <div>
+                        <button onclick="ChangeColor('b',-1)">&lt=</button>
+                        Cor
+                        <button onclick="ChangeColor('b',1)">=></button>
+                    </div>
+                </div>
+                <div class="box-Letter">
+                    <b>t</b>
+                    <div>
+                        <button onclick="ChangeColor('t',-1)">&lt=</button>
+                        Cor
+                        <button onclick="ChangeColor('t',1)">=></button>
+                    </div>
+                </div>
+                <div style="flex-basis: 100%;"></div>
+                <div class="box-Letter">
+                    <b>i</b>
+                    <div>
+                        <div>
+                            <button onclick="ChangeColor('i',-1)">&lt=</button>
+                            Cor
+                            <button onclick="ChangeColor('i',1)">=></button>
+                        </div>
+                        <div>
+                            <button onclick="ChangeFont('i',-1)">&lt=</button>
+                             Fonte   
+                            <button onclick="ChangeFont('i',1)">=></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-Letter">
+                    <b>r</b>
+                    <div>
+                        <div>
+                            <button onclick="ChangeColor('r',-1)">&lt=</button>
+                            Cor
+                            <button onclick="ChangeColor('r',1)">=></button>
+                        </div>
+                        <div>
+                            <button onclick="ChangeFont('r',-1)">&lt=</button>
+                            Fonte
+                            <button onclick="ChangeFont('r',1)">=></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-Letter">
+                    <b>a</b>
+                    <div>
+                        <div>
+                            <button onclick="ChangeColor('a',-1)">&lt=</button>
+                            Cor
+                            <button onclick="ChangeColor('a',1)">=></button>
+                        </div>
+                        <div>
+                            <button onclick="ChangeFont('a',-1)">&lt=</button>
+                            Fonte
+                            <button onclick="ChangeFont('a',1)">=></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-Letter">
+                    <b>o</b>
+                    <div>
+                        <div>
+                            <button onclick="ChangeColor('o',-1)">&lt=</button>
+                            Cor
+                            <button onclick="ChangeColor('o',1)">=></button>
+                        </div>
+                        <div>
+                            <button onclick="ChangeFont('o',-1)">&lt=</button>
+                            Fonte
+                            <button onclick="ChangeFont('o',1)">=></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="box-Controls">
+                <div class='box-Sets'>
+                    Aleatorizar
+                    <div class="box-Selectors">
+                        <button onclick="RandomColor()">Cor Tds</button>
+                        <input type="radio" name="input-ColorsAllUn" value="0" checked>
+                        <input type="radio" name="input-ColorsAllUn" value="1">
+                        <button onclick="SetColor()">Cor Un</button>
+                    </div>
+                    <div class="box-Selectors">
+                        <button onclick="RandomFont()">Fonte Tds</button>
+                        <input type="radio" name="input-TypoAllsUn" value="0" checked>
+                        <input type="radio" name="input-TypoAllsUn" value="1">
+                        <button onclick="SetFont()">Fonte Un</button>
+                    </div>
+                </div>
+                <div class="box-Sets">
+                    Set
+                    <div>
+                        <div>
+                            <button onclick="SetColor(-1)">&lt=</button>
+                            Cor
+                            <button onclick="SetColor(1)">=></button>
+                        </div>
+                        <button onclick="Monocolor()">Monocromatico</button>
+                    </div>
+                    <div>
+                        <button onclick="SetFont(-1)">&lt=</button>
+                        Fonte
+                        <button onclick="SetFont(1)">=></button>
+                    </div>
+                    <div>
+                        BG
+                        <input onchange="bgSetColor()" id="input-bgColor" type="color" value="#FFFFFF">
+                        <button onclick="bgSetColor(false)">Remove</button>
+                    </div>
+                </div>
+
+                <div>
+                    Modo
+                    <button onclick="SetMode(true)">Grande</button>
+                    <button onclick="SetMode(false)">Pequeno</button>
+                </div>
+                <div>
+                    <button onclick="Generate(false)">Gerar</button>
+                    <button onclick="Generate(true)"> => </button>
+                    <button onclick="GenerateIMG()">Salvar</button>
+                    <button onclick="ClearVersions()">Limpar Versões</button>
+                </div>
+            </div>
+        </div>
+        <div id="box-ColorsContainer">
+            Algo deu errado 💀
+        </div>
+        <div class="textHigh text">
+            <div>
+                <div id="Save">
+                    <div id="v" oncontextmenu="ChangeColor('v',1)">V</div>
+                    <div id="i" onclick="ChangeFont('i',1)" oncontextmenu="ChangeColor('i',1)">i</div>
+                    <div id="b" oncontextmenu="ChangeColor('b',1)">b</div>
+                    <div id="r" onclick="ChangeFont('r',1)" oncontextmenu="ChangeColor('r',1)">r</div>
+                    <div id="a" onclick="ChangeFont('a',1)" oncontextmenu="ChangeColor('a',1)">a</div>
+                    <div id="t" oncontextmenu="ChangeColor('t',1)">t</div>
+                    <div id="o" onclick="ChangeFont('o',1)" oncontextmenu="ChangeColor('o',1)">o</div>
+                </div>
+            </div>
+        </div>
+        <div>Versões</div>
+        <div id="Versions"></div>
+    </body>
+</html>

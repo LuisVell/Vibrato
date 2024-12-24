@@ -3,17 +3,17 @@
 # [Versão interativa](https://luisvell.github.io/Vibrato/)
 
 
-# Changelog
+## Changelog
 
-## Versão 1
+### Versão 1
 
-Inicialmente foi criado a logica básica para a criação de possibilidades seguindo a versão do SIV em ativa do momento, possuindo as seguintes capacidades:
-- Aleatoriedade das famílias tipográficas;
-- Interação com cada letra para a rotação das tipografia, permitindo ao usuário a possibilidade de interação.
+- Logica básica para a criação de possibilidades seguindo a versão do SIV em ativa do momento, possuindo as seguintes capacidades:
+    - Aleatoriedade das famílias tipográficas;
+    - Interação com cada letra para a rotação das tipografia, permitindo ao usuário a possibilidade de interação.
 
   
 
-## Versão 2
+### Versão 2
 
 - Atualizações do SIV.
 - Adicionado a possibilidade de alterar as cores individuais das letras.
@@ -22,14 +22,14 @@ Inicialmente foi criado a logica básica para a criação de possibilidades segu
 
   
 
-## Versão 3
+### Versão 3
 
 - Atualizações do SIV.
 - Alterado o tamanho do texto para melhor leitura.
 - Correção de bugs.
 
 
-## Versão 4
+### Versão 4
 
 - Atualizações do SIV.
 - Melhoria de Interface.
@@ -40,3 +40,10 @@ Inicialmente foi criado a logica básica para a criação de possibilidades segu
 - Possibilidade de alternar entre o modo de texto pequeno e grande, facilitando a captura de versões.
 - Capacidade de baixar diretamente as versões já salvas sem necessidade de entrar no modo desenvolvedor.
 - Adicionado melhorias para a geração de alternativas variadas
+
+### Versão 5
+- Possibilidade de cores personalizadas.
+- Fundo com cor personalizada.
+- Modo monocromático.
+- Setter para única fonte.
+- Melhoria de Interface.

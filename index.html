@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <meta charset="utf-8">
     <title>Home</title>
     <style>
         @font-face {
@@ -25,23 +26,187 @@
         #main h1{
             width: fit-content;
         }
-        #main div{
+        #versions{
             width: 100%;
             display: flex;
             flex-direction: row;
             justify-content: space-between; 
         }
+
+        /*Carregamento de Fontes*/
+        @font-face {
+            font-family: Architect;
+            src: url(Fontes/Architect.ttf);
+        }
+        @font-face{
+            font-family: Bagel;
+            src: url('Fontes/BagelFatOne-Regular alterada.ttf');
+        }
+        @font-face{
+            font-family: Sour;
+            src: url(Fontes/Sour.ttf);
+        }
+        @font-face{
+            font-family: Syne;
+            src: url(Fontes/SyneMono-Regular\ alterada.ttf);
+        }
+        @font-face {
+            font-family: DynaPuff;
+            src: url(Fontes/DynaPuff.ttf);
+        }
+        /*Estilo inicial*/
+        #v{
+            font-family: Syne;
+            color: rgb(200, 48, 02);
+        }
+        #b{
+            font-family: Syne;
+            color: rgb(200, 48, 02);
+        }
+        #t{
+            font-family: Syne;
+            color: rgb(200, 48, 02);
+        }
+        #i{
+            font-family: Architect;
+            color: rgb(200, 48, 02);
+        }
+        #r{
+            font-family: Sour;
+            color: rgb(200, 48, 02);
+        }
+        #a{
+            font-family: DynaPuff;
+            color: rgb(200, 48, 02);
+        }
+        #o{
+            font-family: Bagel;
+            color: rgb(200, 48, 02);
+        }
+
+        /*Vibrato*/
+        .text{
+            display: flex; 
+            justify-content: center;
+            flex-wrap: nowrap;
+            font-size: 20vw;
+            user-select: none;
+        }
+        #Vibrato{
+            display: flex; 
+            align-items: flex-end;
+            flex-wrap: nowrap; 
+            width: min-content;
+        }
     </style>
+    <script>
+        let fonts = ['Bagel','Sour','Architect','DynaPuff']
+        let colors = ['rgb(200, 48, 2)','rgb(35, 61, 76)','rgb(219, 120, 158)','rgb(255, 175, 137)','rgb(171, 26, 19)'] 
+        let elementsToRandom = ['i','r','a','o']
+
+        const RandomFontValue = 4;
+        const RandomColorValue = 5;
+
+        function ChangeFont(i, plus,fix=false){
+            let Div = document.getElementById(i)
+            let NowFont = getComputedStyle(Div).getPropertyValue("font-family")
+            let SetFont = (!fix)?fonts.indexOf(NowFont)+plus:nFont
+            if(SetFont<0 || SetFont>fonts.length-1){
+                SetFont = 0
+                if(plus == -1){
+                    SetFont = fonts.length-1
+                }
+            }
+            Div.style.fontFamily = fonts[SetFont];
+        }
+
+        function SetColor(plus){
+            if(plus == null){
+                plus = Math.floor(Math.random() * RandomColorValue)
+            }
+            nColor += plus
+            if(nColor<0||nColor>colors.length-1){
+                nColor = 0
+                if(plus == -1){
+                    nColor = colors.length-1
+                }
+            }
+            for (const element of elementsToRandom.concat(['v','b','t'])) {
+                ChangeColor(element, nColor,true)
+            }
+        }
+
+        function SetFont(plus){
+            if(plus == null){
+                plus = Math.floor(Math.random() * RandomFontValue)
+            }
+            nFont += plus
+            if(nFont<0||nFont>fonts.length-1){
+                nFont = 0
+                if(plus == -1){
+                    nFont = fonts.length-1
+                }
+            }
+            for (const element of elementsToRandom){
+                ChangeFont(element, nFont,true)
+            }
+        }
+
+        function ChangeColor(i,plus, fix=false){
+            let Div = document.getElementById(i)
+            let NowColor = getComputedStyle(Div).getPropertyValue("color")
+            let SetColor = (!fix)?colors.indexOf(NowColor)+plus:nColor
+            if(SetColor<0 || SetColor>colors.length-1){
+                SetColor = 0
+                if(plus == -1){
+                    SetColor = colors.length-1
+                }
+            }
+            Div.style.color = colors[SetColor];
+        }
+        function Random(){ 
+            for (const element of elementsToRandom) {
+                ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+                ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+            }
+            for(const element of ['v','b','t']){
+                ChangeColor(element, (Math.floor(Math.random( ) * RandomColorValue)))
+            }
+        }
+        function RandomColor(){
+            for (const element of elementsToRandom.concat(['v','b','t'])) {
+                ChangeColor(element, (Math.floor(Math.random() * RandomColorValue)))
+            }
+        }
+        function RandomFont(){
+            for (const element of elementsToRandom) {
+                ChangeFont(element, (Math.floor(Math.random() * RandomFontValue)))
+            }
+        }
+        window.onload = ()=>{
+            window.setInterval(Random, 800);
+        }
+    </script>
 </head>
 <body>
     <div id="main">
-    <h1>Versões</h1>
-    <div>
-        <a href="Versão 1.html">Versão 1</a>
-        <a href="Versão 2.html">Versão 2</a>
-        <a href="Versão 3.html">Versão 3</a>
-        <a href="Versão 4.html">Versão 4</a>
-    </div>
+        <div id="Vibrato" class="text">
+            <div id="v" oncontextmenu="ChangeColor('v',1)">V</div>
+            <div id="i" onclick="ChangeFont('i',1)" oncontextmenu="ChangeColor('i',1)">i</div>
+            <div id="b" oncontextmenu="ChangeColor('b',1)">b</div>
+            <div id="r" onclick="ChangeFont('r',1)" oncontextmenu="ChangeColor('r',1)">r</div>
+            <div id="a" onclick="ChangeFont('a',1)" oncontextmenu="ChangeColor('a',1)">a</div>
+            <div id="t" oncontextmenu="ChangeColor('t',1)">t</div>
+            <div id="o" onclick="ChangeFont('o',1)" oncontextmenu="ChangeColor('o',1)">o</div>
+        </div>
+        <h1>Versões</h1>
+        <div id="versions">
+            <a href="Versão 1.html">Versão 1</a>
+            <a href="Versão 2.html">Versão 2</a>
+            <a href="Versão 3.html">Versão 3</a>
+            <a href="Versão 4.html">Versão 4</a>
+            <a href="Versão 5.html">Versão 5</a>
+        </div>
     </div>
 </body>
 </html>
