@@ -4,8 +4,23 @@
         <title>Vibrato Generator</title>
         <style>
 
-            @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+            
             /*Carregamento de Fontes*/
+            @font-face {
+                font-family: Bahnschrift;
+                src: url(Fontes/Bahnschrift.ttf);
+                font-weight:300;
+            }
+            @font-face {
+                font-family: BahnschriftB;
+                src: url(Fontes/Bahnschrift.ttf);
+                font-weight:700;
+            }
+            @font-face {
+                font-family: BahnschriftS;
+                src: url(Fontes/Bahnschrift.ttf);
+                font-weight:600;
+            }
             @font-face {
                 font-family: Architect;
                 src: url(Fontes/Architect.ttf);
@@ -84,7 +99,7 @@
             /**/
 
             button{
-                font-family: "Montserrat", serif;
+                font-family: 'BahnschriftS', sans-serif;
                 font-size: 1vw;
                 height: min-content;
                 color: rgb(57, 102, 102);
@@ -96,7 +111,7 @@
             }
 
             body{
-                font-family: "Montserrat", serif;
+                font-family: 'Bahnschrift', sans-serif;
                 font-size: 1.5vw;
                 margin: 0;
                 padding: 0;
@@ -104,6 +119,7 @@
             #box-Superior{
                 display: flex;
                 height: fit-content;
+                justify-content: center;
                 border-bottom: 1px solid black;
             }
             #Versions{
@@ -173,7 +189,7 @@
                 flex-flow: column;
                 justify-content: space-between;
                 font-size: 1.5vw;
-                padding: 0.5%;
+                padding: 10px 0 10px 10px;
             }
             #box-MainBG div{
                 display: flex;
@@ -547,7 +563,7 @@
                 </div>
                 <div id="box-Change">
                     <div>
-                        Mudar:
+                        <b>Mudar:</b>
                         <div>
                             <button onclick="generateColor()">Cor</button>
                             <button onclick="generateTypo()">Fonte</button>
@@ -565,7 +581,7 @@
             </div>
             <div id="box-Right">
                 <div>
-                    Cor:
+                    <b>Cor:</b>
                     <div>
                         <label><input onchange="colorsetMode(this)" name="input-ColorMode" type="radio" value="0" checked>Cor Unica</label>
                         <label><input onchange="colorsetMode(this)" name="input-ColorMode" type="radio" value="1">Monocromático</label>
@@ -576,14 +592,14 @@
                     </div>
                 </div>
                 <div>
-                    Familia Tipografica:
+                    <b>Familia Tipografica:</b>
                     <div>
                         <label><input onchange="typosetMode(this)" name="input-TypoMode" type="radio" value="0" checked>Todas</label>
                         <label><input onchange="typosetMode(this)" name="input-TypoMode" type="radio" value="1">Familia Unica</label>
                     </div>
                 </div>
                 <div id="box-MainBG">
-                    Background:
+                    <b>Background:</b>
                     <div>
                         <label><input onchange="bgSetColor(this)" name="input-BackgroundColor" type="radio" value="0" checked>Sem fundo</label>
                         <label><input onchange="bgSetColor(this)" name="input-BackgroundColor" type="radio" value="1">Cor</label>

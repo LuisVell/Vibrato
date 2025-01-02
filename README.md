@@ -47,3 +47,17 @@
 - Modo monocromático.
 - Setter para única fonte.
 - Melhoria de Interface.
+
+## Fontes
+
+ - [Bahnschrift](https://www.dafontfree.io/bahnschrift-font/)
+
+ - [Syne](https://fonts.google.com/specimen/Syne)
+
+ - [Bagel](https://fonts.google.com/specimen/Bagel+Fat+One)
+
+ - [Architects](https://fonts.google.com/specimen/Architects+Daughter)
+
+ - [DynaPuff](https://fonts.google.com/specimen/DynaPuff)
+
+ - [Sour](https://fonts.google.com/specimen/Sour+Gummy)
